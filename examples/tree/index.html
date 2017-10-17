@@ -19,6 +19,9 @@
         line-height: 1.5em;
         list-style-type: dot;
       }
+      li{
+      	list-style: none;
+      }
     </style>
     <!-- Delete ".min" for console warnings in development -->
     <script src="../../dist/vue.min.js"></script>
@@ -28,12 +31,13 @@
     <!-- item template -->
     <script type="text/x-template" id="item-template">
       <li>
+      	 <span v-if="isFolder" >[{{open ? '-' : '+'}}]</span>
         <div
           :class="{bold: isFolder}"
           @click="toggle"
-          @dblclick="changeType">
+          @dblclick="changeType" style="display: inline-block;">
           {{model.name}}
-          <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
+         
         </div>
         <ul v-show="open" v-if="isFolder">
           <item
@@ -41,18 +45,15 @@
             v-for="model in model.children"
             :model="model">
           </item>
-          <li class="add" @click="addChild">+</li>
+          
         </ul>
       </li>
     </script>
-
-    <p>(You can double click on an item to turn it into a folder.)</p>
-
     <!-- the demo root element -->
-    <ul id="demo">
+    <ul id="demo" >
       <item
         class="item"
-        :model="treeData">
+        :model="treeData" v-for='treeData in treeDatas'>
       </item>
     </ul>
 
